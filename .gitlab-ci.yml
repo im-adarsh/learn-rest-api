@@ -12,6 +12,7 @@ maven-build:
 
 
 s3-upload:
+  image: napp/docker-aws-cli
   variables:
       AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
       AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
@@ -20,12 +21,7 @@ s3-upload:
   stage: deploy
   before_script:
     - apt-get update
-    - apt-get --quiet install --yes nodejs
-    - apt-get  --quiet install --yes  npm
-    - apt-get  --quiet install --yes  python-pip # AWS CLI requires python-pip, python is installed by default
-    - python3 -m pip uninstall pip && sudo apt install python3-pip --reinstall 
-    - pip install awscli # Install the SDK
-    - apt-get --quiet install --yes maven-3.5.3
+    - apt-get --quiet install --yes maven
 
   script:
     - ls
@@ -38,3 +34,5 @@ s3-upload:
   when: on_success
   stage: deploy # assigns the stage as deploy
   environment: production
+    only:
+      - develop
