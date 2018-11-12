@@ -21,6 +21,7 @@ s3-upload:
   stage: deploy
   before_script:
     - apt-get update
+    - apt-get --quiet install --yes openjdk-8-jdk
     - apt-get --quiet install --yes maven
 
   script:
