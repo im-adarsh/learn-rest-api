@@ -18,7 +18,6 @@ maven-build:
 
 
 s3-upload:
-  image: python:latest
   variables:
       AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
       AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
