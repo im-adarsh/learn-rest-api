@@ -1,10 +1,4 @@
-image: docker:latest
-services:
-  - docker:dind
-
-variables:
-  DOCKER_DRIVER: overlay
-  SPRING_PROFILES_ACTIVE: gitlab-ci
+image: ubuntu:latest
 
 stages:
   - build
@@ -25,9 +19,17 @@ s3-upload:
       AWS_S3_LOCATION: s3://s3-code-deploy-ec2
   stage: deploy
   before_script:
+    - apt-get update
+    - apt-get --quiet install --yes nodejs
+    - apt-get  --quiet install --yes  npm
+    - apt-get  --quiet install --yes  python-pip # AWS CLI requires python-pip, python is installed by default
+    - python3 -m pip uninstall pip && sudo apt install python3-pip --reinstall 
     - pip install awscli # Install the SDK
+    - apt-get --quiet install --yes maven
+
   script:
     - ls
+    - mvn package
     - cd target
     - ls
     - echo $AWS_SECRET_ACCESS_KEY
