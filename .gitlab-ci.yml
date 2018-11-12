@@ -25,7 +25,7 @@ s3-upload:
     - apt-get  --quiet install --yes  python-pip # AWS CLI requires python-pip, python is installed by default
     - python3 -m pip uninstall pip && sudo apt install python3-pip --reinstall 
     - pip install awscli # Install the SDK
-    - apt-get --quiet install --yes maven
+    - apt-get --quiet install --yes maven@3.5.3
 
   script:
     - ls
