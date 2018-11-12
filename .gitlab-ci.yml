@@ -30,7 +30,6 @@ s3-upload:
     - cd target
     - ls
     - echo $AWS_SECRET_ACCESS_KEY
-    - cd target
     - aws s3 cp learn-rest-api-0.0.1-SNAPSHOT.jar $AWS_S3_LOCATION
   when: on_success
   stage: deploy # assigns the stage as deploy
