@@ -34,5 +34,5 @@ s3-upload:
   when: on_success
   stage: deploy # assigns the stage as deploy
   environment: production
-    only:
-      - develop
+  only:
+    - develop
