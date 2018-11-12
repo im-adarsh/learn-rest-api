@@ -1,0 +1,42 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+
+stages:
+  - build
+  - deploy
+
+maven-build:
+  image: maven:3-jdk-8
+  stage: build
+  script: "mvn package -B"
+  artifacts:
+    paths:
+      - target/*.jar
+
+s3-upload:
+  variables:
+      AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_S3_LOCATION: s3://s3-code-deploy-ec2
+  stage: deploy
+  before_script:
+    - apt-get update
+    - apt-get --quiet install --yes nodejs
+    - apt-get  --quiet install --yes  npm
+    - apt-get  --quiet install --yes  python-pip # AWS CLI requires python-pip, python is installed by default
+    - python3 -m pip uninstall pip && sudo apt install python3-pip --reinstall 
+    - pip install awscli # Install the SDK
+  script:
+    - ls
+    - echo $AWS_SECRET_ACCESS_KEY
+    - cd target
+    - aws s3 cp learn-rest-api-0.0.1-SNAPSHOT.jar $AWS_S3_LOCATION
+  when: on_success
+  stage: deploy # assigns the stage as deploy
+  environment: production
