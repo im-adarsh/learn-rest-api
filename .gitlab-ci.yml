@@ -25,6 +25,8 @@ s3-upload:
       AWS_S3_LOCATION: s3://s3-code-deploy-ec2
   stage: deploy
   before_script:
+    - apk update
+    - apk add
     - apt-get update
     - apt-get --quiet install --yes nodejs
     - apt-get  --quiet install --yes  npm
