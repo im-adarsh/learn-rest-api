@@ -30,7 +30,7 @@ s3-upload:
     - cd target
     - ls
     - zip -r learn-rest-api.zip learn-rest-api-0.0.1-SNAPSHOT.jar
-    - aws s3 cp learn-rest-api-0.0.1-SNAPSHOT.jar $AWS_S3_LOCATION
+    - aws s3 cp learn-rest-api.zip $AWS_S3_LOCATION
   when: on_success
   stage: deploy # assigns the stage as deploy
   environment: production
