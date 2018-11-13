@@ -23,13 +23,13 @@ s3-upload:
     - apt-get update
     - apt-get --quiet install --yes openjdk-8-jdk
     - apt-get --quiet install --yes maven
-
+    - apt-get install zip
   script:
     - ls
     - mvn clean install -DskipTests
     - cd target
     - ls
-    - echo $AWS_SECRET_ACCESS_KEY
+    - zip -r learn-rest-api.zip learn-rest-api-0.0.1-SNAPSHOT.jar
     - aws s3 cp learn-rest-api-0.0.1-SNAPSHOT.jar $AWS_S3_LOCATION
   when: on_success
   stage: deploy # assigns the stage as deploy
